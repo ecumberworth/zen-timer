@@ -1,13 +1,13 @@
-// zen-bell — a gentle visual timer for macOS
-// Build:  swiftc -O -framework AppKit -framework AVFoundation zen-bell.swift -o zen-bell
-// Usage:  ./zen-bell [minutes]   (default: 45)
-//         ./zen-bell stop
+// zen-timer — a gentle visual timer for macOS
+// Build:  swiftc -O -framework AppKit -framework AVFoundation zen-timer.swift -o zen-timer
+// Usage:  ./zen-timer [minutes]   (default: 45)
+//         ./zen-timer stop
 //         Option+drag to reposition
 
 import AppKit
 import AVFoundation
 
-let pidPath = "/tmp/zen-bell.pid"
+let pidPath = "/tmp/zen-timer.pid"
 
 // ─── Stop Command ──────────────────────────────────────────────
 
@@ -16,9 +16,9 @@ if CommandLine.arguments.count > 1 && CommandLine.arguments[1] == "stop" {
        let pid = Int32(pidStr.trimmingCharacters(in: .whitespacesAndNewlines)) {
         kill(pid, SIGTERM)
         try? FileManager.default.removeItem(atPath: pidPath)
-        print("zen-bell: stopped")
+        print("zen-timer: stopped")
     } else {
-        print("zen-bell: not running")
+        print("zen-timer: not running")
     }
     exit(0)
 }
@@ -437,5 +437,5 @@ let termSource = DispatchSource.makeSignalSource(signal: SIGTERM, queue: .main)
 termSource.setEventHandler { NSApplication.shared.terminate(nil) }
 termSource.resume()
 
-print("zen-bell: \(Int(sessionMinutes))m \u{2014} `zen-bell stop` to end \u{2014} option+drag to move")
+print("zen-timer: \(Int(sessionMinutes))m \u{2014} `zen-timer stop` to end \u{2014} option+drag to move")
 app.run()
