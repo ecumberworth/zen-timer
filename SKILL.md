@@ -10,20 +10,30 @@ Manage the zen-timer visual session timer — a single-file Swift/AppKit overlay
 
 ## Source
 
-`~/Code/zen-timer/zen-timer.swift` — the entire app in one file.
+`zen-timer.swift` — the entire app in one file.
 
 ## Quick Commands
 
 ```bash
-# Start a session
-~/Code/zen-timer/zen-timer 60
+# Build
+swiftc -O -framework AppKit -framework AVFoundation zen-timer.swift -o zen-timer
+
+# Start a 60-minute session (default blue variant)
+./zen-timer 60
+
+# Start with a color variant (minutes + variant, either order)
+./zen-timer 60 green
+./zen-timer green 60
+./zen-timer 60 slime    # alias for green
 
 # Stop a running session
-~/Code/zen-timer/zen-timer stop
-
-# Rebuild after code changes
-cd ~/Code/zen-timer && swiftc -O -framework AppKit -framework AVFoundation zen-timer.swift -o zen-timer
+./zen-timer stop
 ```
+
+## Color Variants
+
+- **blue** (default) — soft light blue water
+- **green** / **slime** — bright slimy green for mood changes
 
 ## Architecture
 
@@ -45,20 +55,34 @@ All at the top of the file — edit and recompile:
 | `barHeight` | 20 | Water bar height in px |
 | `cornerRadius` | 8 | Rounded ends |
 | `edgeMargin` | 12 | Distance from screen corner |
-| `colorStart` | (0.50, 0.72, 0.92) | Water color at session start (light blue) |
-| `colorEnd` | (0.42, 0.62, 0.85) | Water color at session end |
-| `opacityStart` | 0.55 | Starting opacity |
-| `opacityEnd` | 0.30 | Ending opacity (fades as you settle in) |
+| `colorSchemes` | (dict) | Color palettes for variants |
+| `opacityStart` | varies | Starting opacity (scheme-dependent) |
+| `opacityEnd` | varies | Ending opacity (scheme-dependent) |
 | `breathPeriod` | 7.0 | Glow breathing cycle in seconds |
 | `surfaceCount` | 4 | Number of floating particles |
 
 ## Workflow
 
 1. Read the current source before making changes
-2. Edit the Swift file
-3. Rebuild: `cd ~/Code/zen-timer && swiftc -O -framework AppKit -framework AVFoundation zen-timer.swift -o zen-timer`
-4. Stop any running instance: `~/Code/zen-timer/zen-timer stop`
-5. Test with a short session: `~/Code/zen-timer/zen-timer 1 &`
+2. Edit the Swift file (add new schemes to `colorSchemes` dict)
+3. Rebuild: `swiftc -O -framework AppKit -framework AVFoundation zen-timer.swift -o zen-timer`
+4. Stop any running instance: `./zen-timer stop`
+5. Test with a short session: `./zen-timer 1 variantname &`
+
+## Adding New Variants
+
+Edit the `colorSchemes` dictionary at the top:
+
+```swift
+"mycolor": (
+    start: (r: CGFloat(0.xx), g: CGFloat(0.xx), b: CGFloat(0.xx)),
+    end:   (r: CGFloat(0.xx), g: CGFloat(0.xx), b: CGFloat(0.xx)),
+    opacityStart: 0.xx,
+    opacityEnd: 0.xx
+),
+```
+
+Then rebuild and test: `./zen-timer 1 mycolor`
 
 ## Fullscreen Note
 

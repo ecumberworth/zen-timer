@@ -25,10 +25,49 @@ if CommandLine.arguments.count > 1 && CommandLine.arguments[1] == "stop" {
 
 // ─── Tweak These ───────────────────────────────────────────────
 
+// Color schemes: variant name → (start, end, opacityStart, opacityEnd)
+let colorSchemes: [String: (start: (r: CGFloat, g: CGFloat, b: CGFloat), end: (r: CGFloat, g: CGFloat, b: CGFloat), opacityStart: CGFloat, opacityEnd: CGFloat)] = [
+    "blue": (
+        start: (r: CGFloat(0.50), g: CGFloat(0.72), b: CGFloat(0.92)),
+        end:   (r: CGFloat(0.42), g: CGFloat(0.62), b: CGFloat(0.85)),
+        opacityStart: 0.55,
+        opacityEnd: 0.30
+    ),
+    "green": (
+        start: (r: CGFloat(0.35), g: CGFloat(0.85), b: CGFloat(0.45)),
+        end:   (r: CGFloat(0.22), g: CGFloat(0.65), b: CGFloat(0.28)),
+        opacityStart: 0.58,
+        opacityEnd: 0.32
+    ),
+    "slime": (
+        start: (r: CGFloat(0.35), g: CGFloat(0.85), b: CGFloat(0.45)),
+        end:   (r: CGFloat(0.22), g: CGFloat(0.65), b: CGFloat(0.28)),
+        opacityStart: 0.58,
+        opacityEnd: 0.32
+    ),
+]
+
 let sessionMinutes: Double = {
     if CommandLine.arguments.count > 1, let m = Double(CommandLine.arguments[1]) { return m }
+    if CommandLine.arguments.count > 2, let m = Double(CommandLine.arguments[2]) { return m }
     return 45
 }()
+
+let variant: String = {
+    if CommandLine.arguments.count > 1, Double(CommandLine.arguments[1]) == nil {
+        return CommandLine.arguments[1].lowercased()
+    }
+    if CommandLine.arguments.count > 2, Double(CommandLine.arguments[2]) == nil {
+        return CommandLine.arguments[2].lowercased()
+    }
+    return "blue"
+}()
+
+let scheme = colorSchemes[variant] ?? colorSchemes["blue"]!
+let colorStart = scheme.start
+let colorEnd = scheme.end
+let opacityStart: CGFloat = scheme.opacityStart
+let opacityEnd: CGFloat = scheme.opacityEnd
 
 let barWidth:     CGFloat = 140     // the water bar width
 let barHeight:    CGFloat = 20      // the water bar height
@@ -37,12 +76,6 @@ let glowPad:      CGFloat = 12      // padding around bar for glow
 let edgeMargin:   CGFloat = 12      // from screen corner
 let breathPeriod          = 7.0
 let surfaceCount          = 4       // particles near the water edge
-
-// Soft light blue water
-let colorStart = (r: CGFloat(0.50), g: CGFloat(0.72), b: CGFloat(0.92))
-let colorEnd   = (r: CGFloat(0.42), g: CGFloat(0.62), b: CGFloat(0.85))
-let opacityStart: CGFloat = 0.55
-let opacityEnd:   CGFloat = 0.30
 
 // Derived window size (bar + glow padding)
 let windowWidth  = barWidth + glowPad * 2
@@ -437,5 +470,5 @@ let termSource = DispatchSource.makeSignalSource(signal: SIGTERM, queue: .main)
 termSource.setEventHandler { NSApplication.shared.terminate(nil) }
 termSource.resume()
 
-print("zen-timer: \(Int(sessionMinutes))m \u{2014} `zen-timer stop` to end \u{2014} option+drag to move")
+print("zen-timer: \(Int(sessionMinutes))m [\(variant)] \u{2014} `zen-timer stop` to end \u{2014} option+drag to move")
 app.run()
