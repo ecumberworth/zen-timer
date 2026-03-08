@@ -45,6 +45,36 @@ let colorSchemes: [String: (start: (r: CGFloat, g: CGFloat, b: CGFloat), end: (r
         opacityStart: 0.58,
         opacityEnd: 0.32
     ),
+    "sunset": (
+        start: (r: CGFloat(0.95), g: CGFloat(0.65), b: CGFloat(0.35)),
+        end:   (r: CGFloat(0.85), g: CGFloat(0.38), b: CGFloat(0.35)),
+        opacityStart: 0.55,
+        opacityEnd: 0.30
+    ),
+    "lavender": (
+        start: (r: CGFloat(0.68), g: CGFloat(0.55), b: CGFloat(0.90)),
+        end:   (r: CGFloat(0.55), g: CGFloat(0.40), b: CGFloat(0.78)),
+        opacityStart: 0.52,
+        opacityEnd: 0.28
+    ),
+    "ocean": (
+        start: (r: CGFloat(0.25), g: CGFloat(0.72), b: CGFloat(0.78)),
+        end:   (r: CGFloat(0.18), g: CGFloat(0.55), b: CGFloat(0.68)),
+        opacityStart: 0.55,
+        opacityEnd: 0.30
+    ),
+    "ember": (
+        start: (r: CGFloat(0.92), g: CGFloat(0.72), b: CGFloat(0.28)),
+        end:   (r: CGFloat(0.80), g: CGFloat(0.32), b: CGFloat(0.18)),
+        opacityStart: 0.58,
+        opacityEnd: 0.32
+    ),
+    "rose": (
+        start: (r: CGFloat(0.88), g: CGFloat(0.52), b: CGFloat(0.62)),
+        end:   (r: CGFloat(0.72), g: CGFloat(0.38), b: CGFloat(0.52)),
+        opacityStart: 0.52,
+        opacityEnd: 0.28
+    ),
 ]
 
 let sessionMinutes: Double = {

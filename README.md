@@ -21,6 +21,24 @@ swiftc -O -framework AppKit -framework AVFoundation zen-timer.swift -o zen-timer
 ./zen-timer 30        # 30 minute session
 ./zen-timer           # default: 45 minutes
 ./zen-timer stop      # stop a running session
+./zen-timer 25 sunset # 25 minutes, sunset theme
+```
+
+### Color themes
+
+| Theme | Mood |
+|-------|------|
+| `blue` | Calm sky (default) |
+| `green` / `slime` | Fresh and lively |
+| `sunset` | Warm amber fading to rose |
+| `lavender` | Soft violet twilight |
+| `ocean` | Deep teal waters |
+| `ember` | Glowing coals, gold to red |
+| `rose` | Gentle pink warmth |
+
+```bash
+./zen-timer 45 lavender
+./zen-timer ocean
 ```
 
 **Option+drag** to reposition the overlay.
